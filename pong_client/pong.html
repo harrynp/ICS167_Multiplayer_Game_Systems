@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Pong</title>
+		
+		<!-- Basic styling, centering the canvas -->
+		<style>
+		canvas {
+			display: block;
+			position: absolute;
+			margin: auto;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+		}
+		</style>
+	</head>
+	<body>
+		<div>
+			Server ip: <input type='text' id='ip' name='ip'/>
+			Server port: <input type='text' id='port' name='port'/>
+			Game ID: <input type='text' id='gameid' name='gameid'/>
+			<button type="button" id='cntBtn' onclick="connect();">Connect</button>
+		</div>
+		<textarea id='log' name='log' readonly='readonly' style="width: 29.4%; height: 100px"></textarea><br/>
+		<div id="game_canvas"></div>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script src="js/pong.js"></script>
+		<script src="js/fancywebsocket.js"></script>
+		<script src="js/client.js"></script>
+	</body>
+</html>
