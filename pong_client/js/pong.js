@@ -5,20 +5,24 @@ var canvas;
 var context;
 
 var score = {
-	current: 0,
-	high: 0,
-	update: function(current, high){
-		this.current = current;
-		this.high = high;
+	p1gameid: null,
+	p2gameid: null,
+	p1: 0,
+	p2: 0,
+	update: function(p1id, p2id, p1score, p2score){
+		this.p1gameid = p1id;
+		this.p2gameid = p2id;
+		this.p1 = p1score;
+		this.p2 = p2score;
 	},
 	draw: function(){
 		context.font = "24px ariel";
 		context.textAlign = 'center';
-		context.fillText("Current Score: " + this.current + " High Score: " + this.high, WIDTH / 2, 50);
+		context.fillText(this.p1gameid + ": " + this.p1 + "        " + this.p2gameid + ": " + this.p2, WIDTH / 2, 50);
 	}
 };
 
-var player = {
+var player1 = {
 	x: null,
 	y: null,
 	width: 20,
@@ -32,6 +36,22 @@ var player = {
 		context.fillRect(this.x, this.y, this.width, this.height);
 	}
 };
+
+var player2 = {
+	x: null,
+	y: null,
+	width: 20,
+	height: 100,
+	update: function(x, y){
+		this.x = x;
+		this.y = y;
+	},
+
+	draw: function(){
+		context.fillRect(this.x, this.y, this.width, this.height);
+	}
+};
+
 var ball = {
 	x: null,
 	y: null,
@@ -56,8 +76,10 @@ function main(){
 	canvas.height = HEIGHT;
 	context = canvas.getContext("2d");
 	$('#game_canvas').append(canvas);
-	player.x = player.width;
-	player.y = (HEIGHT - player.height) / 2;
+	player1.x = player1.width;
+	player1.y = (HEIGHT - player1.height) / 2;
+	player2.x = WIDTH - player2.width * 2;
+	player2.y = (HEIGHT - player2.height) / 2;
 	ball.x = WIDTH / 2;
 	ball.y = HEIGHT / 2;
 	
@@ -75,14 +97,15 @@ function draw(){
 	context.save();
 	context.fillStyle = "white";
 	ball.draw();
-	player.draw();
+	player1.draw();
+	player2.draw();
 	score.draw();
 	var w = 4;
 	var x = (WIDTH - w) / 2;
 	var y = 0;
 	
-	//For 2 players later
-	// context.fillRect(x, y, w, HEIGHT);
+	// For 2 players later
+	context.fillRect(x, y, w, HEIGHT);
 	
 	context.restore();
 }

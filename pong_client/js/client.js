@@ -2,6 +2,7 @@ var server;
 var gameState = false;;
 var upArrow = 38;
 var downArrow = 40;
+var debug = false;
 
 
 function log( text ) {
@@ -40,11 +41,18 @@ function connect(){
 
 	//Log any messages sent from server
 	server.bind('message', function( payload ) {
-		if(gameState){
+		if(payload == "Connection closed because other player has disconnected."){
+			log(payload);
+		}
+		else if(gameState){
+			if(debug){
+				log(payload);
+			}
 			var res = payload.split(",");
-			ball.update(res[2],res[3]);
-			player.update(res[0],res[1]);
-			score.update(res[4],res[5]);		
+			ball.update(res[4],res[5]);
+			player1.update(res[0],res[1]);
+			player2.update(res[2],res[3]);
+			score.update(res[8], res[9], res[6],res[7]);	
 		}
 		else{
 			log(payload);

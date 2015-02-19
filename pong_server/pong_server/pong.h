@@ -7,9 +7,9 @@ public:
 	Pong(unsigned int width, unsigned int height);
 	~Pong();
 	void init();
-	void movePlayer(int keyCode);
+	void movePlayer(unsigned int user, unsigned int keyCode);
 	void update();
-	std::string getData();
+	std::ostringstream getData();
 
 private:
 	bool AABBIntersect(double ax, double ay, double aw, double ah, double bx, double by, double bw, double bh);
@@ -37,14 +37,14 @@ private:
 	};
 
 	struct score{
-		unsigned int current;
-		unsigned int high = 0;
+		unsigned int p1 = 0;
+		unsigned int p2 = 0;
 	};
 
 	player p1;
+	player p2;
 	ball b;
 	score s;
-
 };
 
 
