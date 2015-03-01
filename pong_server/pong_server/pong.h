@@ -7,7 +7,7 @@ public:
 	Pong(unsigned int width, unsigned int height);
 	~Pong();
 	void init();
-	void movePlayer(unsigned int user, unsigned int keyCode);
+	void movePlayer(unsigned int user, unsigned int keyCode, unsigned int latency);
 	void update();
 	std::ostringstream getData();
 
@@ -22,6 +22,7 @@ private:
 		double y;
 		unsigned int width = 20;
 		unsigned int height = 100;
+		unsigned int latency = 0;
 	};
 
 	struct ball{
@@ -32,7 +33,7 @@ private:
 			double y;
 		};
 		velocity v;
-		double speed = 10;
+		double speed = 2;
 		double radius = 20;
 	};
 

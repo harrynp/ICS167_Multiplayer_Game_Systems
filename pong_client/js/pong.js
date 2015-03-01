@@ -4,6 +4,20 @@ var HEIGHT = 600;
 var canvas;
 var context;
 
+var ping = {
+	p1ping: 0,
+	p2ping: 0,
+	update: function(p1p, p2p){
+		this.p1ping = p1p;
+		this.p2ping = p2p;
+	},
+	draw: function(){
+		context.font = "24px ariel";
+		context.textAlign = 'center';
+		context.fillText("Ping: " + this.p1ping + " ms        " + "Ping: " + this.p2ping + " ms", WIDTH / 2, 100);
+	}
+};
+
 var score = {
 	p1gameid: null,
 	p2gameid: null,
@@ -100,6 +114,7 @@ function draw(){
 	player1.draw();
 	player2.draw();
 	score.draw();
+	ping.draw();
 	var w = 4;
 	var x = (WIDTH - w) / 2;
 	var y = 0;

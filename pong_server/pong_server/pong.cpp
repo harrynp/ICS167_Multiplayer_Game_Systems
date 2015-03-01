@@ -22,7 +22,7 @@ void Pong::init(){
 	b.v.y = 0;
 }
 
-void Pong::movePlayer(unsigned int user, unsigned int keyCode){
+void Pong::movePlayer(unsigned int user, unsigned int keyCode, unsigned int latency){
 	player *p = nullptr;
 	if (user == 0){
 		p = &p1;
@@ -32,12 +32,13 @@ void Pong::movePlayer(unsigned int user, unsigned int keyCode){
 	}
 	if (p != nullptr){
 		if (keyCode == 38){
-			p->y -= 25;
+			p->y -= 15;
 		}
 		else if (keyCode == 40){
-			p->y += 25;
+			p->y += 15;
 		}
 		p->y = fmax(fmin(p->y, height - p->height), 0);
+		p->latency = latency;
 	}
 }
 
@@ -48,6 +49,7 @@ bool Pong::AABBIntersect(double ax, double ay, double aw, double ah, double bx, 
 void Pong::update(){
 	b.x += b.v.x;
 	b.y += b.v.y;
+
 
 	if (b.radius > b.y || b.y + b.radius > height){
 		b.v.y *= -1;
@@ -68,7 +70,8 @@ void Pong::update(){
 	if (AABBIntersect(p2.x, p2.y, p2.width, p2.height, b.x - b.radius, b.y - b.radius, b.radius * 2, b.radius * 2)){
 		double n = (b.y + b.radius - p2.y) / (p2.height + b.radius);
 		double theta = M_PI / 4 * (2 * n - 1);
-		double smash = abs(theta) > .1 * M_PI ? 1.5 : 1;
+		//double smash = abs(theta) > .1 * M_PI ? 1.5 : 1;
+		double smash = 1; //removed smash
 		b.v.x = -1 * smash * b.speed * cos(theta);
 		b.v.y = -1 * smash * b.speed * sin(theta);
 	}
@@ -87,6 +90,6 @@ void Pong::update(){
 std::ostringstream Pong::getData(){
 	std::ostringstream os;
 	//os << "{ \"player\" : {\"x\" : " << p1.x << ", \"y\" : " << p1.y << "}, \"ball\" : {\"x\" : " << b.x << ", \"y\" : " << b.y << "}" << ", \"score\" : {\"current\" : " << s.current << ", \"high\" : " << s.high << "}}";
-	os << p1.x << "," << p1.y << "," << p2.x << "," << p2.y << "," << b.x << "," << b.y << "," << s.p1 << "," << s.p2;
+	os << p1.x << "," << p1.y << "," << p2.x << "," << p2.y << "," << b.x << "," << b.y << "," << s.p1 << "," << s.p2 << "," << p1.latency << "," << p2.latency;
 	return os;
 }

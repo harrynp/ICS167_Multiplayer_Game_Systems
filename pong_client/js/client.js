@@ -22,7 +22,8 @@ function connect(){
 	server = new FancyWebSocket('ws://' + document.getElementById('ip').value + ':' + document.getElementById('port').value);
 	$(document).keydown(function(event) {
 		if ( event.which == upArrow || event.which == downArrow ) {
-			send( event.which );
+			var d = new Date();
+			send( d.getTime() + "," + event.which );
 		}
 	});
 
@@ -49,10 +50,17 @@ function connect(){
 				log(payload);
 			}
 			var res = payload.split(",");
+			
+			//var d = new Date();
+			//var ct = Math.floor(d.getTime() / 1000);
+			//var ping = ct - res[10];
+
 			ball.update(res[4],res[5]);
 			player1.update(res[0],res[1]);
 			player2.update(res[2],res[3]);
-			score.update(res[8], res[9], res[6],res[7]);	
+			score.update(res[10], res[11], res[6],res[7]);
+			ping.update(res[8], res[9]);
+			
 		}
 		else{
 			log(payload);

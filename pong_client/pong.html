@@ -20,7 +20,15 @@
 	<body>
 		<div>
 			Server ip: <input type='text' id='ip' name='ip'/>
+			<script type="text/javascript">
+			var elem = document.getElementById("ip");
+			elem.value = "127.0.0.1";
+			</script>
 			Server port: <input type='text' id='port' name='port'/>
+			<script type="text/javascript">
+			var elem = document.getElementById("port");
+			elem.value = "8000";
+			</script>
 			Game ID: <input type='text' id='gameid' name='gameid'/>
 			<button type="button" id='cntBtn' onclick="connect();">Connect</button>
 		</div>
