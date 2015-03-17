@@ -8,7 +8,7 @@ public:
 	~Pong();
 	void init();
 	void movePlayer(unsigned int user, unsigned int keyCode, unsigned int latency);
-	void update();
+	bool update();
 	std::ostringstream getData();
 
 private:

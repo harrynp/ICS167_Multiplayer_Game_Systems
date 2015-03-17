@@ -132,16 +132,25 @@ void periodicHandler(){
 		if (!messageLatency.empty()){
 			auto time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 			if (time >= messageLatency.front().time + messageLatency.front().delay){
+				std::ostringstream confirmMsg;
+				confirmMsg << "Move confirmed," << messageLatency.front().keyCode;
 				game->movePlayer(messageLatency.front().player, messageLatency.front().keyCode, time - messageLatency.front().timeSent);
+				messageLatency.front().player == 0 ? server.wsSend(user.p1clientid, confirmMsg.str()) : server.wsSend(user.p2clientid, confirmMsg.str());
 				messageLatency.pop();
 			}
 		}
 
-		game->update();
-		std::ostringstream os = game->getData();
-		os << "," << user.p1gameid << "," << user.p2gameid;
-		server.wsSend(user.p1clientid, os.str());
-		server.wsSend(user.p2clientid, os.str());
+		bool new_game = game->update();
+		if (new_game){
+			server.wsSend(user.p1clientid, "New Game");
+			server.wsSend(user.p2clientid, "New Game");
+		}
+		std::ostringstream p1os = game->getData();
+		std::ostringstream p2os = game->getData();
+		p1os << "," << user.p1gameid << "," << user.p2gameid << ",0";
+		p2os << "," << user.p1gameid << "," << user.p2gameid << ",1";
+		server.wsSend(user.p1clientid, p1os.str());
+		server.wsSend(user.p2clientid, p2os.str());
 	}
 }
 
@@ -150,7 +159,7 @@ int main(int argc, char *argv[]){
 
     cout << "Please set server port: ";
     cin >> port;
-
+	//port = 8000;
     /* set event handler */
     server.setOpenHandler(openHandler);
     server.setCloseHandler(closeHandler);

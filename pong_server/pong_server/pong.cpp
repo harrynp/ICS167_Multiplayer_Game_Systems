@@ -46,9 +46,15 @@ bool Pong::AABBIntersect(double ax, double ay, double aw, double ah, double bx, 
 	return ax < bx + bw && ay < by + bh && bx < ax + aw && by < ay + ah;
 }
 
-void Pong::update(){
-	b.x += b.v.x;
-	b.y += b.v.y;
+bool Pong::update(){
+	if ((p1.latency > 200 && b.v.x < 0 && b.x < width / 2) || (p2.latency > 200 && b.v.x > 0 && b.x > width / 2)){
+		b.x += b.v.x / 2;
+		b.y += b.v.y / 2;
+	}
+	else{
+		b.x += b.v.x;
+		b.y += b.v.y;
+	}
 
 
 	if (b.radius > b.y || b.y + b.radius > height){
@@ -79,12 +85,15 @@ void Pong::update(){
 		//restarts game and increments score of player 2 if the ball hits the left border
 		++s.p2;
 		init();
+		return true;
 	}
 	if (b.x  + b.radius > width){
 		//restarts game and increments score of player 1 if the ball hits the right border
 		++s.p1;
 		init();
+		return true;
 	}
+	return false;
 }
 
 std::ostringstream Pong::getData(){

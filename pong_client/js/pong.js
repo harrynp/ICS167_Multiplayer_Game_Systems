@@ -41,9 +41,11 @@ var player1 = {
 	y: null,
 	width: 20,
 	height: 100,
-	update: function(x, y){
+	update: function(x, y, offset){
 		this.x = x;
 		this.y = y;
+		this.y += offset;
+		this.y = Math.max(Math.min(this.y, 600 - this.height), 0);
 	},
 
 	draw: function(){
@@ -56,9 +58,11 @@ var player2 = {
 	y: null,
 	width: 20,
 	height: 100,
-	update: function(x, y){
+	update: function(x, y, offset){
 		this.x = x;
 		this.y = y;
+		this.y += offset;
+		this.y = Math.max(Math.min(this.y, 600 - this.height), 0);
 	},
 
 	draw: function(){
